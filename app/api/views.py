@@ -5,8 +5,6 @@ from rest_framework.generics import (
 )
 
 from rest_framework.permissions import IsAuthenticated
-from django.core.mail import send_mail
-
 
 from app.api.serializers import (
 	SongSerializer,
@@ -15,7 +13,6 @@ from app.api.serializers import (
 
 from app.models import Song
 from app.models import PlayList
-from radio.celery import printText
 
 
 class SongListView(ListAPIView):

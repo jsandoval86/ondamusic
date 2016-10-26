@@ -1,5 +1,6 @@
 from django.conf.urls import url
 from django.contrib import admin
+from rest_framework_jwt.views import obtain_jwt_token
 
 from app.api.views import (
 	SongListView,
@@ -9,6 +10,9 @@ from app.api.views import (
 
 
 urlpatterns = [
+
+		# Auth jwt
+		url(r'^auth/token-jwt/$', obtain_jwt_token, name="songs_list"),
 
 		# endpoint songs
 		url(r'^songs/$', SongListView.as_view(), name="songs_list"),
