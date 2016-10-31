@@ -98,7 +98,6 @@ REST_FRAMEWORK = {
 	'DEFAULT_AUTHENTICATION_CLASSES' : [
 		# JWT
 		'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-
 		#OAuth
 		'rest_framework_social_oauth2.authentication.SocialAuthentication',
 		]
@@ -107,6 +106,8 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
 	# Facebook OAuth2
 	'social.backends.facebook.FacebookOAuth2',
+	# Github OAuth2
+	'social.backends.github.GithubOAuth2',
 	# Django
 	'django.contrib.auth.backends.ModelBackend'
 )
@@ -117,12 +118,14 @@ JWT_AUTH = {
 	'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
 }
 
-
 # Facebook configuration
 SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY', '')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET', '')
 SOCIAL_AUTH_FACEBOOK_SCOPE = [ 'email' ]
 
+# Github configuration
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY', '')
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET', '')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
