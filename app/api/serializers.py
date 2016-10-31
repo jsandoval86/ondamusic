@@ -9,7 +9,7 @@ class SongSerializer(ModelSerializer):
 
 	class Meta:
 		model = Song
-		fields = "__all__"
+		fields = ('name', 'artist', 'vote')
 
 
 class PlayListSerializer(ModelSerializer):

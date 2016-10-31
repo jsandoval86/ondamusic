@@ -7,6 +7,7 @@ class Song(models.Model):
 
 	name = models.CharField(max_length=50, null=False, blank=False)
 	artist = models.CharField(max_length=50, null=True,blank=True)
+	vote = models.IntegerField(null=True, blank=True, default=0)
 
 	class Meta:
 		verbose_name = "Song"
