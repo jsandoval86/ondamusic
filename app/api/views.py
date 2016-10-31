@@ -19,6 +19,8 @@ from app.api.serializers import (
 
 from app.models import Song
 from app.models import PlayList
+from app.tasks import print_text
+
 
 class SongListView(ListAPIView):
 	"""
@@ -44,6 +46,7 @@ class PlayListCreateView(ListCreateAPIView):
 
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
+		print_text.apply_async(countdown=5)
 
 	def get_queryset(self):
 		return PlayList.objects.filter(user=self.request.user)

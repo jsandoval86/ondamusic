@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'oauth2_provider',
 	'social.apps.django_app.default',
+	'djcelery',
 
 	#AppsProject
 	'app',
@@ -92,8 +93,14 @@ DATABASES = {
 	}
 }
 
-# Rest Framework configurations
+# Celery configurations
+import djcelery
+djcelery.setup_loader()
 
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+
+
+# Rest Framework configurations
 REST_FRAMEWORK = {
 	'DEFAULT_AUTHENTICATION_CLASSES' : [
 		# JWT
