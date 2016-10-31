@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 	'oauth2_provider',
 	'social.apps.django_app.default',
 	'djcelery',
+	'django.contrib.algoliasearch',
 
 	#AppsProject
 	'app',
@@ -138,6 +139,12 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET', '')
 EMAIL_BACKEND = 'sgbackend.SendGridBackend'
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', '')
 
+# Algolia configurations
+ALGOLIA = {
+	'APPLICATION_ID': os.environ.get('ALGOLIA_APPLICATION_ID', ''),
+	'API_KEY': os.environ.get('ALGOLIA_API_KEY', ''),
+	'INDEX_PREFIX' : 'ondamusic'
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators

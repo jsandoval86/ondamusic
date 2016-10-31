@@ -9,7 +9,6 @@ def send_email_new_playlist(user):
 	"""
 	Enviar email a usuario notificacion de creacion de nueva Playlist
 	"""
-
 	send_mail(
 		"nueva Playlist creada", 
 		"Has creado una nueva Playlist!",
