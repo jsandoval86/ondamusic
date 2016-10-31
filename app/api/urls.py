@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.conf.urls import include
 from django.contrib import admin
 from rest_framework_jwt.views import obtain_jwt_token
 
@@ -16,6 +17,9 @@ urlpatterns = [
 
 		# Auth jwt
 		url(r'^auth/token-jwt/$', obtain_jwt_token, name="auth_jwt"),
+
+		# Social Auth
+		url(r'^auth/', include('rest_framework_social_oauth2.urls')),
 
 		# endpoint songs
 		url(r'^songs/$', SongListView.as_view(), name="songs_list"),

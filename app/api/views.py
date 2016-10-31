@@ -6,6 +6,8 @@ from rest_framework.generics import (
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators  import api_view
+from rest_framework.decorators  import permission_classes
+from rest_framework.decorators  import authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -78,6 +80,8 @@ def song_add_vote(request, pk):
 
 		return Response(song_serialized)
 
+
+@permission_classes((IsAuthenticated, ))
 @api_view(['POST'])
 def play_list_add_song(request, pk, song):
 	"""
@@ -93,6 +97,10 @@ def play_list_add_song(request, pk, song):
 
 	except PlayList.DoesNotExist, Song.DoesNotExist:
 		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	# Validar que usuario sea propietario de la playlist
+	if play_list.user.id != request.user.id:
+		return Response({"detail": "You do not have permission to perform this action."})
 
 	if request.method == 'POST':
 		# Agregar cancion a playlist
