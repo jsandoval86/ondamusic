@@ -9,5 +9,6 @@ class AppConfig(AppConfig):
 	name = 'app'
 
 	def ready(self):
+		# Registrar modelos en Algolia
 		songModel = self.get_model('Song')
 		algoliasearch.register(songModel, SongIndex)

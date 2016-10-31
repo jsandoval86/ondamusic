@@ -10,6 +10,7 @@ from rest_framework.decorators  import permission_classes
 from rest_framework.decorators  import authentication_classes
 from rest_framework.response import Response
 from rest_framework import status
+import pusher
 
 from app.api.permissions import IsOwnerOnly
 from app.api.serializers import (
@@ -20,7 +21,10 @@ from app.api.serializers import (
 from app.models import Song
 from app.models import PlayList
 from app.tasks import send_email_new_playlist
+from ondamusic import settings
 
+PUSHER_CHANNEL = 'ranking_song_channel'
+PUSHER_EVENT = 'ranking_song_event'
 
 class SongListView(ListAPIView):
 	"""
@@ -82,8 +86,26 @@ def song_add_vote(request, pk):
 		serializer = SongSerializer(song)
 		song_serialized = serializer.data
 
+		push_notification_ranking_song()
+
 		return Response(song_serialized)
 
+def push_notification_ranking_song():
+	"""
+	Notifica a los clientes el ranking de la cancion
+	"""
+	pusher_client = pusher.Pusher(
+		app_id=settings.PUSHER_APP_ID,
+		key=settings.PUSHER_KEY,
+		secret=settings.PUSHER_SECRET,
+		ssl=True
+	)
+
+	pusher_client.trigger(
+		PUSHER_CHANNEL, 
+		PUSHER_EVENT, 
+		{'message': 'ranking_song'}
+	)
 
 @permission_classes((IsAuthenticated, ))
 @api_view(['POST'])
