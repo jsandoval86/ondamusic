@@ -78,3 +78,30 @@ def song_add_vote(request, pk):
 
 		return Response(song_serialized)
 
+@api_view(['POST'])
+def play_list_add_song(request, pk, song):
+	"""
+	Agrega una cancion a un playlist
+	"""
+	# Buscando playlist y cancion
+	try:
+		pk_play_list = pk
+		pk_song = song
+
+		play_list = PlayList.objects.get(pk=pk_play_list)
+		song = Song.objects.get(pk=pk_song)
+
+	except PlayList.DoesNotExist, Song.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	if request.method == 'POST':
+		# Agregar cancion a playlist
+		play_list.songs.add(song)
+
+		# Serializar playlist
+		serializer = PlayListSerializer(play_list)
+		play_list_serialized = serializer.data
+
+		# Respuesta
+		return Response(play_list_serialized)
+
