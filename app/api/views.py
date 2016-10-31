@@ -9,6 +9,7 @@ from rest_framework.decorators  import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
+from app.api.permissions import IsOwnerOnly
 from app.api.serializers import (
 	SongSerializer,
 	PlayListSerializer
@@ -16,7 +17,6 @@ from app.api.serializers import (
 
 from app.models import Song
 from app.models import PlayList
-
 
 class SongListView(ListAPIView):
 	"""
@@ -38,13 +38,22 @@ class PlayListCreateView(ListCreateAPIView):
 	Crea una PlayList 
 	"""
 	serializer_class = PlayListSerializer
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticated, )
 
 	def perform_create(self, serializer):
 		serializer.save(user=self.request.user)
 
 	def get_queryset(self):
 		return PlayList.objects.filter(user=self.request.user)
+
+class PlayListDetail(RetrieveAPIView):
+	"""
+	Detalle un PlayList
+	"""
+	queryset = PlayList.objects.all()
+	serializer_class = PlayListSerializer
+	permission_classes = (IsOwnerOnly, )
+
 
 @api_view(['POST'])
 def song_add_vote(request, pk):

@@ -6,7 +6,8 @@ from app.api.views import (
 	SongListView,
 	SongDetailView,
 	song_add_vote,
-	PlayListCreateView
+	PlayListCreateView,
+	PlayListDetail
 )
 
 
@@ -22,7 +23,6 @@ urlpatterns = [
 
 		# endpoint playlist
 		url(r'^play-list/$', PlayListCreateView.as_view(), name="play_list"),
-
-		#url(r'^play-list/(?P<pk>\d+)/$', , name="playlist_detail"),
+		url(r'^play-list/(?P<pk>\d+)/$', PlayListDetail.as_view(), name="playlist_detail"),
 		#url(r'^play-list/(?P<pk>\d+)/add/(?P<song>\d+)$/', , name="playlist_add_song"),
 ]
