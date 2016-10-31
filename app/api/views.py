@@ -19,7 +19,7 @@ from app.api.serializers import (
 
 from app.models import Song
 from app.models import PlayList
-from app.tasks import print_text
+from app.tasks import send_email_new_playlist
 
 
 class SongListView(ListAPIView):
@@ -45,8 +45,9 @@ class PlayListCreateView(ListCreateAPIView):
 	permission_classes = (IsAuthenticated, )
 
 	def perform_create(self, serializer):
-		serializer.save(user=self.request.user)
-		print_text.apply_async(countdown=5)
+		user = self.request.user
+		serializer.save(user=user)
+		send_email_new_playlist.apply_async((user,),countdown=5)
 
 	def get_queryset(self):
 		return PlayList.objects.filter(user=self.request.user)

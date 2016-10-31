@@ -22,7 +22,7 @@ class PlayList(models.Model):
 
 	user = models.ForeignKey(User, related_name='playlist')
 	name = models.CharField(max_length=50, null=False, blank=False)
-	songs = models.ManyToManyField(Song, null=True, blank=True)
+	songs = models.ManyToManyField(Song, blank=True)
 
 	class Meta:
 		verbose_name = "Play list"
