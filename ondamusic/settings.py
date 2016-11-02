@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import datetime
-
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -86,19 +86,15 @@ WSGI_APPLICATION = 'ondamusic.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	}
-}
+db_env = dj_database_url.config()
+DATABASES = {'default' : {}}
+DATABASES['default'].update(db_env)
 
 # Celery configurations
 import djcelery
 djcelery.setup_loader()
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', '')
 
 
 # Rest Framework configurations
