@@ -94,9 +94,6 @@ DATABASES['default'].update(db_env)
 import djcelery
 djcelery.setup_loader()
 
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', '')
-
-
 # Rest Framework configurations
 REST_FRAMEWORK = {
 	'DEFAULT_AUTHENTICATION_CLASSES' : [
