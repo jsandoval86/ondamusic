@@ -1,3 +1,4 @@
+from django.core import serializers
 from rest_framework.generics import (
 	ListAPIView,
 	RetrieveAPIView,
@@ -101,11 +102,22 @@ def push_notification_ranking_song():
 		ssl=True
 	)
 
+	top_10_songs = get_top_10_songs()
+
 	pusher_client.trigger(
 		PUSHER_CHANNEL, 
 		PUSHER_EVENT, 
-		{'message': 'ranking_song'}
+		{'message': 'ranking_song', 'songs' : top_10_songs}
 	)
+
+def get_top_10_songs():
+	"""
+	retorna JSON con el top 10 de canciones votadas
+	"""
+	ranking = Song.objects.all().order_by('-vote')[:10]
+	data = serializers.serialize('json', ranking)
+
+	return data
 
 @permission_classes((IsAuthenticated, ))
 @api_view(['POST'])
