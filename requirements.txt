@@ -1,4 +1,4 @@
-Django==1.9.5
+Django==2.2.24
 PyJWT==1.4.2
 algoliasearch==1.10.0
 algoliasearch-django==1.2.4
